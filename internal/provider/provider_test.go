@@ -21,17 +21,19 @@ func TestProviderPodSpecUnits(t *testing.T) {
 	if err != nil {
 		t.Fatalf("could not read %s: %q", dir, err)
 	}
-	p := new(p)
-	p.pkgManager = &ospkg.NoopManager{}
-	p.unitManager, _ = unit.NewMockManager()
-	p.config = &Opts{
+
+	opts := &Opts{
 		AllowedHostPaths: DefaultAllowedPaths,
 		NodeName:         "localhost",
 		NodeInternalIP:   []byte{192, 168, 1, 1},
 		NodeExternalIP:   []byte{172, 16, 0, 1},
+		UserMode:         true,
 	}
 
-	p.podResourceManager = kubernetes.NewPodResourceWatcher(informers.NewSharedInformerFactory(nil, 0))
+	provider, _ := New(context.TODO(), opts, kubernetes.NewPodResourceWatcher(informers.NewSharedInformerFactory(nil, 0)))
+	p := provider.(*p)
+	p.unitManager, _ = unit.NewMockManager()
+	p.pkgManager = &ospkg.NoopManager{}
 
 	for _, f := range testFiles {
 		if f.IsDir() {
