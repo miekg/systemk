@@ -28,4 +28,9 @@ jobs:
       run: go build -v ./...
 
     - name: systemk Test (unit)
-      run: sudo go test -v ./... # still not able to write /var/run/user/1001 in github workflows
+      run: |
+        mkdir $HOME/bin
+        touch $HOME/bin/dbus-launch
+        chmod +x $HOME/bin/dbus-launch
+        PATH=$HOME/bin:$PATH
+        sudo go test -v ./... # still not able to write /var/run/user/1001 in github workflows
