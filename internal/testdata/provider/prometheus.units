@@ -12,6 +12,8 @@ PrivateMounts=true
 ReadOnlyPaths=/
 StandardOutput=journal
 StandardError=journal
+User=0
+Group=0
 RemainAfterExit=true
 ExecStart= "--config.file=/etc/prometheus/prometheus.yml" "--storage.tsdb.path=/tmp/prometheus"
 TemporaryFileSystem=/var /run

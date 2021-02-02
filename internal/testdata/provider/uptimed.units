@@ -12,6 +12,8 @@ PrivateMounts=true
 ReadOnlyPaths=/
 StandardOutput=journal
 StandardError=journal
+User=1
+Group=1
 RemainAfterExit=true
 ExecStart=
 TemporaryFileSystem=/var /run
@@ -40,11 +42,13 @@ PrivateMounts=true
 ReadOnlyPaths=/
 StandardOutput=journal
 StandardError=journal
+User=1
+Group=1
 RemainAfterExit=true
 ExecStart=/bin/bash -c "while true; do ls /var/run/secrets/kubernetes.io; echo nono > /data/cdrom/nono; sleep 1; done"
 TemporaryFileSystem=/var /run
 ReadWritePaths=/data/cdrom
-BindPaths=/var/run/user/1000/aa-bb/emptydirs/#0:/data/cdrom
+BindPaths=/var/run/aa-bb/emptydirs/#0:/data/cdrom
 Environment=HOSTNAME=localhost
 Environment=KUBERNETES_SERVICE_PORT=6444
 Environment=KUBERNETES_SERVICE_HOST=127.0.0.1

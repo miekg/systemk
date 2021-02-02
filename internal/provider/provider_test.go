@@ -27,7 +27,6 @@ func TestProviderPodSpecUnits(t *testing.T) {
 		NodeName:         "localhost",
 		NodeInternalIP:   []byte{192, 168, 1, 1},
 		NodeExternalIP:   []byte{172, 16, 0, 1},
-		UserMode:         true,
 	}
 
 	provider, err := New(context.TODO(), opts, kubernetes.NewPodResourceWatcher(informers.NewSharedInformerFactory(nil, 0)))

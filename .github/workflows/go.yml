@@ -17,11 +17,6 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
 
-    - name: Get dependencies
-      run: |
-        go get golang.org/x/lint/golint
-        sudo apt-get install dbus-x11
-
     - name: Check formatting
       run: go fmt
 
@@ -30,4 +25,4 @@ jobs:
 
     - name: systemk Test (unit)
       run: |
-        sudo go test -v ./... # still not able to write /var/run/user/1001 in github workflows
+        sudo go test -v ./...
