@@ -16,7 +16,7 @@ jobs:
 
       - name: systemk Build
         run: |
-          go build ./...
+          go build -o systemk main.go
           ls -l
 
       - name: Get Epoch SHA
