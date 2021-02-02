@@ -30,7 +30,10 @@ func TestProviderPodSpecUnits(t *testing.T) {
 		UserMode:         true,
 	}
 
-	provider, _ := New(context.TODO(), opts, kubernetes.NewPodResourceWatcher(informers.NewSharedInformerFactory(nil, 0)))
+	provider, err := New(context.TODO(), opts, kubernetes.NewPodResourceWatcher(informers.NewSharedInformerFactory(nil, 0)))
+	if err != nil {
+		t.Fatal(err)
+	}
 	p := provider.(*p)
 	p.unitManager, _ = unit.NewMockManager()
 	p.pkgManager = &ospkg.NoopManager{}
