@@ -60,11 +60,11 @@ func (p *p) volumes(pod *corev1.Pod, which Volume) (map[string]string, error) {
 			if err := isBelow(p.config.AllowedHostPaths, dir); err != nil {
 				return nil, err
 			}
-			if err := mkdirAllChown(dir, dirPerms, uid, gid); err != nil {
+			if err := p.mkdirAllChown(dir, dirPerms, uid, gid); err != nil {
 				return nil, err
 			}
 			dir = filepath.Join(dir, fmt.Sprintf("#%d", i))
-			if err := mkdirAllChown(dir, dirPerms, uid, gid); err != nil {
+			if err := p.mkdirAllChown(dir, dirPerms, uid, gid); err != nil {
 				return nil, err
 			}
 			fnlog.Debugf("created %q for emptyDir %q", dir, v.Name)
@@ -87,11 +87,11 @@ func (p *p) volumes(pod *corev1.Pod, which Volume) (map[string]string, error) {
 			if err := isBelow(p.config.AllowedHostPaths, dir); err != nil {
 				return nil, err
 			}
-			if err := mkdirAllChown(dir, dirPerms, uid, gid); err != nil {
+			if err := p.mkdirAllChown(dir, dirPerms, uid, gid); err != nil {
 				return nil, err
 			}
 			dir = filepath.Join(dir, fmt.Sprintf("#%d", i))
-			if err := mkdirAllChown(dir, dirPerms, uid, gid); err != nil {
+			if err := p.mkdirAllChown(dir, dirPerms, uid, gid); err != nil {
 				return nil, err
 			}
 			fnlog.Debugf("created %q for secret %q", dir, v.Name)
@@ -101,12 +101,12 @@ func (p *p) volumes(pod *corev1.Pod, which Volume) (map[string]string, error) {
 				if err != nil {
 					return nil, err
 				}
-				if err := writeFile(dir, k, uid, gid, data); err != nil {
+				if err := p.writeFile(dir, k, uid, gid, data); err != nil {
 					return nil, err
 				}
 			}
 			for k, v := range secret.Data {
-				if err := writeFile(dir, k, uid, gid, []byte(v)); err != nil {
+				if err := p.writeFile(dir, k, uid, gid, []byte(v)); err != nil {
 					return nil, err
 				}
 			}
@@ -129,22 +129,22 @@ func (p *p) volumes(pod *corev1.Pod, which Volume) (map[string]string, error) {
 			if err := isBelow(p.config.AllowedHostPaths, dir); err != nil {
 				return nil, err
 			}
-			if err := mkdirAllChown(dir, dirPerms, uid, gid); err != nil {
+			if err := p.mkdirAllChown(dir, dirPerms, uid, gid); err != nil {
 				return nil, err
 			}
 			dir = filepath.Join(dir, fmt.Sprintf("#%d", i))
-			if err := mkdirAllChown(dir, dirPerms, uid, gid); err != nil {
+			if err := p.mkdirAllChown(dir, dirPerms, uid, gid); err != nil {
 				return nil, err
 			}
 			fnlog.Debugf("created %q for configmap %q", dir, v.Name)
 
 			for k, v := range configMap.Data {
-				if err := writeFile(dir, k, uid, gid, []byte(v)); err != nil {
+				if err := p.writeFile(dir, k, uid, gid, []byte(v)); err != nil {
 					return nil, err
 				}
 			}
 			for k, v := range configMap.BinaryData {
-				if err := writeFile(dir, k, uid, gid, v); err != nil {
+				if err := p.writeFile(dir, k, uid, gid, v); err != nil {
 					return nil, err
 				}
 			}
@@ -179,18 +179,18 @@ func isEmpty(name string) (bool, error) {
 }
 
 // mkdirAllChown calls os.MkdirAll and chown to create path and set ownership.
-func mkdirAllChown(path string, perm os.FileMode, uid, gid string) error {
+func (p *p) mkdirAllChown(path string, perm os.FileMode, uid, gid string) error {
 	if err := os.MkdirAll(path, perm); err != nil {
 		return err
 	}
 
-	return chown(path, uid, gid)
+	return p.chown(path, uid, gid)
 }
 
 // writeFile writes data in to a tmp file in dir and chowns it to uid/gid and
 // then moves it over file. Note 'file': This mv fails for directories. Those need
 // to be removed first? (This is not done yet)
-func writeFile(dir, file, uid, gid string, data []byte) error {
+func (p *p) writeFile(dir, file, uid, gid string, data []byte) error {
 	fnlog := log.
 		WithField("dir", dir).
 		WithField("file", file)
@@ -200,7 +200,7 @@ func writeFile(dir, file, uid, gid string, data []byte) error {
 		return err
 	}
 	fnlog.Debugf("chowning %q to %s.%s", tmpfile.Name(), uid, gid)
-	if err := chown(tmpfile.Name(), uid, gid); err != nil {
+	if err := p.chown(tmpfile.Name(), uid, gid); err != nil {
 		return err
 	}
 
@@ -218,8 +218,12 @@ func writeFile(dir, file, uid, gid string, data []byte) error {
 	return os.Rename(tmpfile.Name(), path)
 }
 
-// chown chowns name with uid and gid.
-func chown(name, uid, gid string) error {
+// chown chowns name with uid and gid. This is a noop in when running
+// under user mode.
+func (p *p) chown(name, uid, gid string) error {
+	if p.config.UserMode {
+		return nil
+	}
 	uidn, err := strconv.ParseInt(uid, 10, 64)
 	if err != nil {
 		uidn = -1

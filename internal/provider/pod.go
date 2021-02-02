@@ -129,7 +129,7 @@ func (p *p) CreatePod(ctx context.Context, pod *corev1.Pod) error {
 					return err // return err? This will be an event. TODO: tweak message
 				}
 				fnlog.Debugf("chowning %q", v.MountPath)
-				if err := chown(v.MountPath, uid, gid); err != nil {
+				if err := p.chown(v.MountPath, uid, gid); err != nil {
 					return err
 				}
 			} else {
@@ -142,7 +142,7 @@ func (p *p) CreatePod(ctx context.Context, pod *corev1.Pod) error {
 					break
 				}
 				fnlog.Debugf("chowning %q", v.MountPath)
-				if err := chown(v.MountPath, uid, gid); err != nil {
+				if err := p.chown(v.MountPath, uid, gid); err != nil {
 					return err
 				}
 			}
