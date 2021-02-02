@@ -166,7 +166,7 @@ func (p *p) CreatePod(ctx context.Context, pod *corev1.Pod) error {
 
 		uf = uf.Overwrite("Service", "ProtectSystem", "true")
 		uf = uf.Overwrite("Service", "ProtectHome", "tmpfs")
-		uf = uf.Overwrite("Service", "PrivateMounts", "true")
+		//		uf = uf.Overwrite("Service", "PrivateMounts", "true")  // user mode doesn't allow this.
 		uf = uf.Overwrite("Service", "ReadOnlyPaths", "/")
 		uf = uf.Insert("Service", "StandardOutput", "journal")
 		uf = uf.Insert("Service", "StandardError", "journal")
