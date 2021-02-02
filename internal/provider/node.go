@@ -29,6 +29,16 @@ func (p *p) ConfigureNode(ctx context.Context, opts *Opts) (*v1.Node, error) {
 	}
 
 	machineID, _ := util.GetMachineID()
+	taints := []v1.Taint{}
+	if !opts.DisableTaint {
+		taints = []v1.Taint{
+			{
+				Key:    DefaultTaintKey,
+				Value:  DefaultTaintValue,
+				Effect: corev1.TaintEffectNoSchedule,
+			},
+		}
+	}
 
 	return &v1.Node{
 		ObjectMeta: metav1.ObjectMeta{
@@ -40,15 +50,7 @@ func (p *p) ConfigureNode(ctx context.Context, opts *Opts) (*v1.Node, error) {
 				corev1.LabelArchStable:         runtime.GOARCH,
 			},
 		},
-		Spec: v1.NodeSpec{
-			Taints: []v1.Taint{
-				{
-					Key:    DefaultTaintKey,
-					Value:  DefaultTaintValue,
-					Effect: corev1.TaintEffectNoSchedule,
-				},
-			},
-		},
+		Spec: v1.NodeSpec{Taints: taints},
 		Status: v1.NodeStatus{
 			Addresses:   nodeAddresses,
 			Allocatable: capacity(),
