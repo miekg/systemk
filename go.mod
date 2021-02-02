@@ -40,3 +40,5 @@ replace (
 	k8s.io/metrics => k8s.io/metrics v0.18.15
 	k8s.io/sample-apiserver => k8s.io/sample-apiserver v0.18.15
 )
+
+replace github.com/virtual-kubelet/systemk => github.com/miekg/systemk v0.0.0-20210130181421-e68d8bc3b380
