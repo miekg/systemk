@@ -33,4 +33,4 @@ jobs:
         touch $HOME/bin/dbus-launch
         chmod +x $HOME/bin/dbus-launch
         PATH=$HOME/bin:$PATH
-        sudo go test -v ./... # still not able to write /var/run/user/1001 in github workflows
+        sudo "PATH=$PATH" go test -v ./... # still not able to write /var/run/user/1001 in github workflows
