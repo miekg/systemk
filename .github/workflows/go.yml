@@ -28,4 +28,4 @@ jobs:
       run: go build -v ./...
 
     - name: systemk Test (unit)
-      run: sudoo go test -v ./... # still not able to write /var/run/user/1001 in github workflows
+      run: sudo go test -v ./... # still not able to write /var/run/user/1001 in github workflows
