@@ -44,10 +44,8 @@ func installFlags(flags *pflag.FlagSet, c *provider.Opts) {
 	flags.StringVar(&c.MetricsAddr, "metrics-addr", provider.DefaultMetricsAddr, "address to listen for metrics/stats requests")
 	flags.IntVar(&c.PodSyncWorkers, "pod-sync-workers", provider.DefaultPodSyncWorkers, `number of pod synchronization workers`)
 	flags.DurationVar(&c.InformerResyncPeriod, "full-resync-period", provider.DefaultInformerResyncPeriod, "interval period for recurring listing of all Pods assigned to this Node")
-	flags.DurationVar(&c.StreamIdleTimeout, "stream-idle-timeout", provider.DefaultStreamIdleTimeout,
-		"maximum time a streaming connection can be idle before the connection is automatically closed")
-	flags.DurationVar(&c.StreamCreationTimeout, "stream-creation-timeout", provider.DefaultStreamCreationTimeout,
-		"stream-creation-timeout is the maximum time for streaming connection")
+	flags.DurationVar(&c.StreamIdleTimeout, "stream-idle-timeout", provider.DefaultStreamIdleTimeout, "maximum time a streaming connection can be idle before the connection is automatically closed")
+	flags.DurationVar(&c.StreamCreationTimeout, "stream-creation-timeout", provider.DefaultStreamCreationTimeout, "stream-creation-timeout is the maximum time for streaming connection")
 	flags.StringVar(&c.ServerCertPath, "tls-cert", "", "path to the certificate to secure the kubelet API")
 	flags.StringVar(&c.ServerKeyPath, "tls-key", "", "path to the private key to sign the kubelet API")
 	flags.IPVar(&c.NodeInternalIP, "internal-ip", net.IPv4zero, "IP address to advertise as Node InternalIP, 0.0.0.0 means auto-detect")
@@ -61,7 +59,11 @@ func installFlags(flags *pflag.FlagSet, c *provider.Opts) {
 	flagset := flag.NewFlagSet("klog", flag.PanicOnError)
 	klog.InitFlags(flagset)
 	flagset.VisitAll(func(f *flag.Flag) {
-		f.Name = "klog." + f.Name
-		flags.AddGoFlag(f)
+		// klog flags are the majority of the flags, and they shouldn't exist in the first place
+		// only allow a minimal set.
+		if f.Name == "v" {
+			f.Name = "klog." + f.Name
+			flags.AddGoFlag(f)
+		}
 	})
 }
