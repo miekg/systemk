@@ -20,6 +20,7 @@ jobs:
     - name: Get dependencies
       run: |
         go get golang.org/x/lint/golint
+        apt-get install dbus-x11
 
     - name: Check formatting
       run: go fmt
@@ -29,7 +30,4 @@ jobs:
 
     - name: systemk Test (unit)
       run: |
-        mkdir $HOME/bin
-        cp /bin/true $HOME/bin/dbus-launch
-        PATH=$HOME/bin:$PATH
-        sudo "PATH=$PATH" go test -v ./... # still not able to write /var/run/user/1001 in github workflows
+        sudo go test -v ./... # still not able to write /var/run/user/1001 in github workflows
