@@ -20,7 +20,7 @@ jobs:
     - name: Get dependencies
       run: |
         go get golang.org/x/lint/golint
-        apt-get install dbus-x11
+        sudo apt-get install dbus-x11
 
     - name: Check formatting
       run: go fmt
