@@ -24,6 +24,9 @@ jobs:
     - name: Check formatting
       run: go fmt
 
+    - name: Vet
+      run: go vet
+
     - name: Lint
       run: golint ./... # for now don't set --set_exit_status so build passes
 
