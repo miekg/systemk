@@ -9,7 +9,7 @@ import (
 	"path"
 	"strings"
 
-	"github.com/virtual-kubelet/systemk/internal/unit"
+	"github.com/miekg/systemk/internal/unit"
 )
 
 // ArchLinuxManager manages packages on Arch Linux.

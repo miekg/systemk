@@ -7,9 +7,9 @@ import (
 	"testing"
 
 	"github.com/andreyvit/diff"
-	"github.com/virtual-kubelet/systemk/internal/kubernetes"
-	"github.com/virtual-kubelet/systemk/internal/ospkg"
-	"github.com/virtual-kubelet/systemk/internal/unit"
+	"github.com/miekg/systemk/internal/kubernetes"
+	"github.com/miekg/systemk/internal/ospkg"
+	"github.com/miekg/systemk/internal/unit"
 	"k8s.io/client-go/informers"
 )
 

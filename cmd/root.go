@@ -20,10 +20,10 @@ import (
 	"context"
 	"path"
 
+	"github.com/miekg/systemk/internal/kubernetes"
+	"github.com/miekg/systemk/internal/provider"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
-	"github.com/virtual-kubelet/systemk/internal/kubernetes"
-	"github.com/virtual-kubelet/systemk/internal/provider"
 	"github.com/virtual-kubelet/virtual-kubelet/node"
 	"github.com/virtual-kubelet/virtual-kubelet/node/nodeutil"
 	corev1 "k8s.io/api/core/v1"

@@ -22,9 +22,9 @@ import (
 	"syscall"
 
 	"github.com/coreos/go-systemd/v22/util"
+	"github.com/miekg/systemk/cmd"
+	"github.com/miekg/systemk/internal/provider"
 	"github.com/pkg/errors"
-	"github.com/virtual-kubelet/systemk/cmd"
-	"github.com/virtual-kubelet/systemk/internal/provider"
 	vklog "github.com/virtual-kubelet/virtual-kubelet/log"
 	vklogv2 "github.com/virtual-kubelet/virtual-kubelet/log/klogv2"
 )

@@ -10,7 +10,7 @@ import (
 	"path"
 	"strings"
 
-	"github.com/virtual-kubelet/systemk/internal/unit"
+	"github.com/miekg/systemk/internal/unit"
 )
 
 // DebianManager manages packages on Debian.

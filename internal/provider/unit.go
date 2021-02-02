@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/virtual-kubelet/systemk/internal/unit"
+	"github.com/miekg/systemk/internal/unit"
 	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

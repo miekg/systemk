@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/coreos/go-systemd/v22/util"
-	"github.com/virtual-kubelet/systemk/internal/system"
+	"github.com/miekg/systemk/internal/system"
 	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"

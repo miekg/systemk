@@ -6,9 +6,9 @@ import (
 	"os"
 	"strings"
 
+	"github.com/miekg/systemk/internal/ospkg"
+	"github.com/miekg/systemk/internal/unit"
 	"github.com/pkg/errors"
-	"github.com/virtual-kubelet/systemk/internal/ospkg"
-	"github.com/virtual-kubelet/systemk/internal/unit"
 	nodeapi "github.com/virtual-kubelet/virtual-kubelet/node/api"
 	corev1 "k8s.io/api/core/v1"
 )

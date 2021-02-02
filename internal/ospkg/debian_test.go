@@ -3,7 +3,7 @@ package ospkg
 import (
 	"testing"
 
-	"github.com/virtual-kubelet/systemk/internal/system"
+	"github.com/miekg/systemk/internal/system"
 )
 
 func TestDebian(t *testing.T) {

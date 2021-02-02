@@ -21,8 +21,8 @@ import (
 	"net"
 	"os"
 
+	"github.com/miekg/systemk/internal/provider"
 	"github.com/spf13/pflag"
-	"github.com/virtual-kubelet/systemk/internal/provider"
 	vklogv2 "github.com/virtual-kubelet/virtual-kubelet/log/klogv2"
 	"k8s.io/klog/v2"
 )

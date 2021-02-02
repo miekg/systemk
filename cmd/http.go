@@ -24,8 +24,8 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/miekg/systemk/internal/provider"
 	"github.com/pkg/errors"
-	"github.com/virtual-kubelet/systemk/internal/provider"
 	nodeapi "github.com/virtual-kubelet/virtual-kubelet/node/api"
 )
 

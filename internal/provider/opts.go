@@ -22,7 +22,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/virtual-kubelet/systemk/internal/system"
+	"github.com/miekg/systemk/internal/system"
 )
 
 // Defaults for the provider.
