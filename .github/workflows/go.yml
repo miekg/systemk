@@ -30,8 +30,6 @@ jobs:
     - name: systemk Test (unit)
       run: |
         mkdir $HOME/bin
-        echo "/bin/bash" > $HOME/bin/dbus-launch
-        echo "exit 0" >> $HOME/bin/dbus-launch
-        chmod +x $HOME/bin/dbus-launch
+        cp /bin/true $HOME/bin/dbus-launch
         PATH=$HOME/bin:$PATH
         sudo "PATH=$PATH" go test -v ./... # still not able to write /var/run/user/1001 in github workflows
